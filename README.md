@@ -107,7 +107,7 @@ Make sure you have installed:
     firebase.authDomain=
     firebase.projectId=
     firebase.appId=
-  ```
+    ```
 4. **Start the development servers**
    
    Backend:
