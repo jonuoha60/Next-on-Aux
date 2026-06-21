@@ -101,7 +101,7 @@ Make sure you have installed:
     CLIENT_SECRET=
     SPOTIFY_REDIRECT_URI=http://127.0.0.1:8080/spotify/callback
    ```
-   In application properties fill these values
+   In application properties fill these values from firebase 
     ```env
     firebase.apiKey=
     firebase.authDomain=
