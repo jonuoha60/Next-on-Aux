@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <link rel="stylesheet" th:href="@{/css/room.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="chat-container">
+
+    <div class="sidebar">
+        <h2>Users</h2>
+        <div id="user-list"></div>
+
+        <h2>Room Details</h2>
+        <div class="users-list">
+            <span class="room-code-label">Room Name:</span>
+            <span th:text="${room.roomName}"></span>
+        </div>
+        <div class="users-list">
+            <span class="room-code-label">Room Code:</span>
+            <span th:text="${room.roomCode}"></span>
+        </div>
+        <div class="users-list">
+            <span class="room-code-label">Max Users:</span>
+            <span th:text="${room.maxUser}"></span>
+        </div>
+
+        <h2>Queue — What's playing?</h2>
+
+        <div class="mini-player">
+            <div class="mini-now">
+                <img id="trackImage" class="track-image" />
+                <div class="mini-text">
+                    <p id="trackTitle">Nothing playing</p>
+                    <span id="trackArtist">—</span>
+                </div>
+            </div>
+
+            <span class="song-duration" id="song-duration"></span>
+            <div id="music-bar"></div>
+
+            <div class="mini-controls">
+                <button id="playPrev">⏮</button>
+                <button onclick="togglePlay()" id="playBtn">▶</button>
+                <button id="playNext">⏭</button>
+                <button onclick="openCurrentSong()" title="Open Song">↗</button>
+            </div>
+
+            <div class="song-link"></div>
+            <div class="mini-queue" id="queueList"></div>
+        </div>
+
+        <br />
+
+        <div id="choose-battle-section">
+            <h2>Choose Battle</h2>
+            <div id="battle-users"></div>
+        </div>
+
+        <div id="battle-started-section" class="hidden">
+            <h2>⚔️ Battle Started</h2>
+            <p id="battle-text">Battle has begun!</p>
+            <button id="battle-end" onclick="endBattle()"></button>
+        </div>
+        <div id="live-voting-panel" class="hidden">
+    <h2>Live Voting</h2>
+
+    <div id="battle-song-info">
+        Waiting for battle song...
+    </div>
+
+    <div class="vote-buttons">
+        <button id="vote-player1">Vote Player 1</button>
+        <button id="vote-player2">Vote Player 2</button>
+    </div>
+
+    <div id="vote-results">
+        <p id="player1-votes">Player 1: 0 votes</p>
+        <p id="player2-votes">Player 2: 0 votes</p>
+    </div>
+</div>
+<div class="end-room-container">
+    <button class="end-room-btn" onclick="onLeave()">
+        End Room
+    </button>
+</div>
+    </div>
+    
+
+    <div class="chat-room">
+        <div class="chat-header">
+            <div class="header-left">General Chat</div>
+            <div class="header-right">
+                <div class="search-wrapper">
+                    <input type="text" id="music-search" placeholder="Search songs...">
+                    <div id="music-dropdown" class="music-dropdown hidden"></div>
+                    <button onclick="searchMusic()">Search</button>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <div class="messages" id="message-body"></div>
+
+        <div class="message-input">
+            <input type="text" id="message-content" placeholder="Send a message...">
+            <button onclick="sendMessage()" id="send-message">Send</button>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Battle Popup -->
+<div id="battle-popup" class="battle-popup hidden">
+    <div class="battle-popup-content">
+        <h3>Create Battle</h3>
+
+        <p>Opponent: <span id="selected-opponent">None</span></p>
+
+        <label>Number of Songs</label>
+        <select id="song-count" onchange="validateBattleForm()">
+            <option value="">Select</option>
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="6" selected>6</option>
+            <option value="8">8</option>
+            <option value="10">10</option>
+        </select>
+
+        <label>Live Voting</label>
+        <select id="live-voting">
+            <option value="yes">Allow</option>
+            <option value="no">Disable</option>
+        </select>
+
+        <label>Battle Category</label>
+<select id="battle-category">
+    <option value="">Any Genre</option>
+    <option value="rap">Rap / Hip-Hop</option>
+    <option value="rnb">R&B / Soul</option>
+    <option value="pop">Pop</option>
+    <option value="rock">Rock</option>
+    <option value="afrobeats">Afrobeats</option>
+    <option value="drill">Drill</option>
+    <option value="dancehall">Dancehall / Reggae</option>
+    <option value="electronic">Electronic / EDM</option>
+    <option value="latin">Latin</option>
+    <option value="country">Country</option>
+    <option value="jazz">Jazz / Blues</option>
+    <option value="classical">Classical</option>
+</select>
+
+        <div class="battle-actions">
+            <button id="start-battle-btn" onclick="startBattle()">Start Game</button>
+            <button onclick="closeBattlePopup()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+<script src="/js/playlist.js"></script>
+
+<!-- Pass Thymeleaf server values to JS -->
+<script th:inline="javascript">
+    window.__ROOM_CODE__ = [[${room.roomCode}]];
+    window.__ROOM_HOST__ = [[${room.host.username}]];
+    window.__ROOM_HOSTID__ = [[${room.host.id}]];
+</script>
+
+<script th:src="@{/js/room.js}"></script>
+
+</body>
+</html>

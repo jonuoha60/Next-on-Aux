@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" th:href="@{/css/create.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Room</title>
+</head>
+
+<body>
+
+<div class="room">
+
+    <div class="room-container">
+
+        <div class="room-card">
+
+            <h1 class="room-title">Create Room</h1>
+
+            <p class="room-subtitle">
+                Start an aux battle and invite your friends.
+            </p>
+
+            <form
+                th:action="@{/save/create}"
+                th:object="${room}"
+                method="post"
+                id="create"
+                class="room-form">
+
+                <div id="error-box" class="error-box"></div>
+
+                <input
+                    th:field="*{roomName}"
+                    class="room-input"
+                    type="text"
+                    id="roomNameCreate"
+                    placeholder="Room name"
+                    required>
+
+                <input
+                    th:field="*{maxUser}"
+                    class="room-input"
+                    type="number"
+                    id="maxCreate"
+                    min="2"
+                    placeholder="Max players"
+                    required>
+
+                <div class="room-visibility">
+                    <span class="visibility-label">Room Type</span>
+
+                    <label class="switch">
+                        <input
+                            th:field="*{privateRoom}"
+                            type="checkbox"
+                            id="privateToggle">
+                        <span class="slider"></span>
+                    </label>
+
+                    <span id="roomTypeText" class="visibility-text">
+                        Public
+                    </span>
+                </div>
+
+                <p class="room-text">
+                    Have a room code?
+                    <a href="/join-battle" class="room-link">
+                        Join room
+                    </a>
+                </p>
+
+                <button type="submit" class="room-button">
+                    Create Room
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- <script>
+const privateToggle = document.getElementById("privateToggle");
+const roomTypeText = document.getElementById("roomTypeText");
+
+privateToggle.addEventListener("change", () => {
+    roomTypeText.textContent =
+        privateToggle.checked ? "Private" : "Public";
+});
+</script> -->
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+</html>

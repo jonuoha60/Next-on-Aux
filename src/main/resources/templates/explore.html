@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Explore</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragment/header :: header}"></div>
+
+
+<section class="explore-section">
+
+    <h1>Explore Rooms</h1>
+
+    <div class="explore-container" id="roomsContainer">
+        <!-- Rooms load here dynamically -->
+    </div>
+
+</section>
+
+<footer>
+    © 2026 NextOnAux — Control The Vibe.
+</footer>
+
+<script>
+async function loadRooms() {
+    try {
+        const res = await fetch("/spotify/getRoom");
+        const rooms = await res.json();
+
+        console.log("rooms:", rooms);
+
+        const container = document.getElementById("roomsContainer");
+        container.innerHTML = "";
+
+        if (!rooms || rooms.length === 0) {
+            container.innerHTML = `
+                <p style="color:#aaa; text-align:center; width:100%;">
+                    No public rooms available right now.
+                </p>
+            `;
+            return;
+        }
+
+        rooms.forEach(room => {
+
+            let userCount = 0;
+
+            try {
+                const usersObj = JSON.parse(room.users || "{}");
+                userCount = Object.keys(usersObj).length;
+            } catch (e) {
+                userCount = 0;
+            }
+
+            const card = document.createElement("div");
+            card.className = "room-card-explore";
+
+            card.innerHTML = `
+                <div class="room-image music"></div>
+
+                <div class="room-content">
+                    <h2>${room.roomName ?? "Untitled Room"}</h2>
+
+                    <p>Hosted by ${room.host.username ?? "Unknown"}</p>
+
+                    <div class="room-info">
+                        <span>👥 ${userCount} / ${room.maxUser ?? 0}</span>
+                        <span>🔒 ${room.privateRoom ? "Private" : "Public"}</span>
+                    </div>
+
+                    <button onclick="joinRoom('${room.roomName}', '${room.roomCode}')">
+                        Join Room
+                    </button>
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+
+    } catch (err) {
+        console.error("Failed to load rooms:", err);
+    }
+}
+
+function joinRoom(roomName, roomCode) {
+    if (!roomName || !roomCode) return;
+
+    // optional: clean name for URL safety
+    const safeName = encodeURIComponent(roomName);
+
+    window.location.href = `/room/${roomCode}/${safeName}`;
+}
+
+loadRooms();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Next on Aux</title>
+
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="login">
+    <div class="login-container">
+        <div class="login-card">
+
+            <div class="logo">
+                🎵
+            </div>
+
+            <h1>Welcome Back</h1>
+            <p class="subtitle">
+                Sign in to continue your music battles.
+            </p>
+
+             <form th:action="@{/save/user/login}" method="post" th:object="${user}">
+                <p th:if="${error}" class="room-error" th:text="${error}"></p>
+                <div class="input-group">
+                    <input
+                    th:field="*{email}"
+                        type="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <input
+                    th:field="*{password}"
+                        type="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="login-btn">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <button class="spotify-btn">
+                <svg width="20" height="20" viewBox="0 0 168 168" fill="currentColor">
+                    <path d="M84 0a84 84 0 100 168 84 84 0 000-168zm38.5 121.1a5.2 5.2 0 01-7.2 1.7c-19.7-12-44.5-14.7-73.8-8.2a5.2 5.2 0 11-2.2-10.1c32-7 59.4-3.8 81.4 9.4a5.2 5.2 0 011.8 7.2zm10.2-22.6a6.5 6.5 0 01-8.9 2.1c-22.5-13.8-56.8-17.8-83.4-9.8a6.5 6.5 0 11-3.7-12.5c30.5-9 69-4.4 93.8 10.8a6.5 6.5 0 012.2 9.4zm.9-24.2C106.6 58.2 61.8 56.6 36.5 64a7.8 7.8 0 11-4.4-15c29.2-8.6 77.5-6.9 109.7 12.2a7.8 7.8 0 01-8.2 13.1z"/>
+                </svg>
+                Continue with Spotify
+            </button>
+
+            <p class="signup-text">
+                Don't have an account?
+                <a href="/signup">Sign up</a>
+            </p>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

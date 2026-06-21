@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" th:href="@{/css/create.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Join Room</title>
+</head>
+
+<body>
+
+    <div class="room">
+
+    <div class="room-container">
+
+        <div class="room-card">
+
+            <h1 class="room-title">Join Room</h1>
+
+            <p class="room-subtitle">
+                Join an aux battle and invite your friends.
+            </p>
+
+            <form th:action="@{/save/join}" th:object="${room}" method="post" onsubmit="onJoin()" class="room-form">
+                <p th:if="${error}" class="room-error" th:text="${error}"></p>
+            
+
+                <input 
+                    th:field="*{roomName}"
+                    class="room-input"
+                    type="text" 
+                    id="room-name-join"
+                    placeholder="Room name"
+                >
+                <input 
+                    th:field="*{roomCode}"
+                    class="room-input"
+                    type="text" 
+                    id="room-code-join"
+                    placeholder="Room code"
+                >
+
+        <p class="room-text">
+            Don't have a room code?
+    <a href="/create-battle" class="room-link">Create room</a>
+        </p>                
+        <button class="room-button">
+                    Join Room
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+</html>

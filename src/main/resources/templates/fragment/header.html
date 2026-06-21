@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<th:block th:fragment="header">
+
+    <nav>
+        <div class="logo">NextOnAux</div>
+
+        <div class="nav-links">
+            <a href="/create-battle">Start Battle</a>
+            <a href="#">Leaderboard</a>
+
+            <a href="/login" id="auth-link">Login</a>
+        </div>
+    </nav>
+
+    <script>
+        const authLink = document.getElementById("auth-link");
+
+        const setSessionUser = (user) => {
+            sessionStorage.setItem("user", JSON.stringify(user));
+        };
+
+        const getSessionUser = () => {
+            const user = sessionStorage.getItem("user");
+            return user ? JSON.parse(user) : null;
+        };
+
+        const clearSessionUser = () => {
+            sessionStorage.removeItem("user");
+        };
+
+        const updateUI = (user) => {
+            authLink.textContent = user.email;
+            authLink.href = "/profile";
+        };
+
+        const getUserInfo = async () => {
+
+            try {
+                // Check sessionStorage first (FAST PATH)
+                const cachedUser = getSessionUser();
+
+                if (cachedUser) {
+                    console.log("Using sessionStorage user:", cachedUser);
+                    updateUI(cachedUser);
+                    return;
+                }
+
+                // 1. Check backend session
+                let res = await fetch("http://localhost:8080/auth/check-session", {
+                    method: "GET",
+                    credentials: "include"
+                });
+
+                let data = await res.json();
+                console.log("Session check:", data);
+
+                if (data.loggedIn && data.user) {
+
+                    setSessionUser(data.user);
+                    updateUI(data.user);
+                    return;
+                }
+
+                // 2. Try refresh token
+                console.log("No session → trying refresh...");
+
+                const refreshRes = await fetch("http://localhost:8080/auth/refresh", {
+                    method: "GET",
+                    credentials: "include"
+                });
+
+                if (refreshRes.ok) {
+
+                    const refreshData = await refreshRes.json();
+                    console.log("Refreshed:", refreshData);
+
+                    if (refreshData.user) {
+                        setSessionUser(refreshData.user);
+                        updateUI(refreshData.user);
+                        return;
+                    }
+
+                    // fallback re-check session
+                    res = await fetch("http://localhost:8080/auth/check-session", {
+                        method: "GET",
+                        credentials: "include"
+                    });
+
+                    data = await res.json();
+
+                    if (data.loggedIn && data.user) {
+                        setSessionUser(data.user);
+                        updateUI(data.user);
+                        return;
+                    }
+                }
+
+                // 3. Not logged in
+                clearSessionUser();
+                authLink.textContent = "Login";
+                authLink.href = "/login";
+
+            } catch (err) {
+                console.error("Auth error:", err);
+
+                clearSessionUser();
+                authLink.textContent = "Login";
+                authLink.href = "/login";
+            }
+        };
+
+        getUserInfo();
+    </script>
+
+</th:block>
+
+</body>
+</html>

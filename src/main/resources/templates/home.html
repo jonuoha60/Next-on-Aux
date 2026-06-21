@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>NextOnAux</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragment/header :: header}"></div>
+
+
+<section class="hero">
+    <h1>Battle Your Friends On The Aux</h1>
+
+    <p>
+        Create music battles, challenge your friends, and let random listeners
+        vote on who really controls the aux.
+    </p>
+
+    <div class="buttons">
+        <a href="/create-battle" class="btn btn-primary">Start A Battle</a>
+        <a href="/explore" class="btn btn-secondary">Explore Battles</a>
+    </div>
+</section>
+
+<section class="features">
+
+    <div class="card">
+        <h3>🎵 Aux Battles</h3>
+        <p>Go head-to-head with your friends by submitting tracks.</p>
+    </div>
+
+    <div class="card">
+        <h3>🔥 Live Voting</h3>
+        <p>Random users vote anonymously for fairness.</p>
+    </div>
+
+    <div class="card">
+        <h3>🏆 Leaderboards</h3>
+        <p>Climb rankings and become the aux king.</p>
+    </div>
+
+</section>
+
+<footer>
+    © 2026 NextOnAux — Control The Vibe.
+</footer>
+
+
+
+</body>
+</html>

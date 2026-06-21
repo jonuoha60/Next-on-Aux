@@ -1,0 +1,206 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+/* body {
+    font-family: Arial, ans-serif;
+    background: #0f172a;
+    color: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+} */
+
+.room {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.room-container {
+    width: 100%;
+    max-width: 450px;
+    
+}
+
+.room-card {
+    background: #1e293b;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.room-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #38bdf8;
+}
+
+.room-subtitle {
+    text-align: center;
+    color: #cbd5e1;
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+}
+
+.room-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.room-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    background: #0f172a;
+    color: #f8fafc;
+    font-size: 1rem;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.room-input:focus {
+    outline: none;
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+.room-input::placeholder {
+    color: #94a3b8;
+}
+
+.room-button {
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #38bdf8;
+    color: #0f172a;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.room-button:hover {
+    background: #0ea5e9;
+    transform: translateY(-2px);
+}
+
+.room-text {
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    margin-top: 15px;
+}
+
+.room-link {
+    color: #38bdf8;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.room-link:hover {
+    color: #0ea5e9;
+    text-decoration: underline;
+}
+
+.error-box {
+    border-radius: 8px;
+    color: #b30000;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.error-list {
+    list-style: none;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+@media (max-width: 500px) {
+    .room-card {
+        padding: 30px 24px;
+    }
+
+    .room-title {
+        font-size: 1.7rem;
+    }
+}
+
+.room-visibility {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: Arial, sans-serif;
+}
+
+.visibility-label {
+  font-size: 16px;
+  color: #aaa;
+}
+
+/* Switch container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+/* Hide checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider background */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #444;
+  transition: 0.3s ease;
+  border-radius: 34px;
+}
+
+/* Circle knob */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s ease;
+  border-radius: 50%;
+}
+
+/* Checked state */
+.switch input:checked + .slider {
+  background-color: #4caf50;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* Text label */
+.visibility-text {
+  font-size: 14px;
+  color: #ddd;
+  min-width: 60px;
+}
