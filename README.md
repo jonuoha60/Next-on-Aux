@@ -2,6 +2,8 @@
 Next on Aux is a social music battle platform that lets you compete with friends like an "aux battle" to see who has the better taste in music. You are able create or join rooms, queue your favorite tracks, and battle it out in real-time as listeners vote for the songs they enjoy most.
 With synchronized playback, everyone in the room listens to the same music at the same time, creating a shared listening experience no matter where they are.
 
+<img src="demo2.png" width="800" />
+
 ---
 
 ## Key Features
